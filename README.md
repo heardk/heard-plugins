@@ -1,0 +1,102 @@
+# virtual-team
+
+A Claude Code plugin that installs four named subagents — `nate`, `priya`, `simone`, `dev` — covering full-stack, frontend, security, and quality. Each has a distinct voice, scope, and review protocol, and is told to stay in its lane and defer outside it.
+
+## Roster
+
+| Agent | Role | Model | Tools | Use for |
+|---|---|---|---|---|
+| `nate` | Senior full-stack | sonnet | Read, Grep, Glob, Bash, Edit, Write | Architecture, state management, type design, performance, refactoring, build tooling |
+| `priya` | Senior frontend | sonnet | Read, Grep, Glob, Bash, Edit, Write | UI/UX, accessibility, responsive design, component consistency, form UX, print layouts |
+| `simone` | Senior security | opus | Read, Grep, Glob, Bash, WebFetch | Security audits, input validation, auth, secrets, dependencies, CORS/CSP. Advisory only — no Edit/Write. |
+| `dev` | Senior quality | sonnet | Read, Grep, Glob, Bash, Edit, Write | Testing strategy, test design, edge cases, CI quality gates |
+
+### Why these models
+
+- **sonnet** for the generalist roles. It is the default workhorse — strong at code reasoning, fast enough for interactive review, cheaper than opus.
+- **opus** for `simone`. Security findings have the highest cost of being wrong (false negatives ship vulnerabilities, false positives waste team time on theater). Worth the extra cost for deeper reasoning.
+
+If you want to tune cost, downgrade `priya` and `dev` to haiku for narrower review work — the personas hold up at smaller sizes for opinion-style feedback. Keep `nate` on sonnet or higher because architecture review needs broader context.
+
+### Why these tools
+
+- **All four** get `Read`, `Grep`, `Glob` for codebase exploration and `Bash` for running tests, builds, and CLI tools (`gh`, `npm audit`, etc.).
+- **`nate`, `priya`, `dev`** get `Edit` and `Write` because they implement code in their domain (refactors, UI fixes, tests).
+- **`simone` does NOT get `Edit` or `Write`.** Auth and security code should be reviewed by a human before changes land. Simone recommends fixes; a human or another agent applies them. `WebFetch` is included for CVE and advisory lookups.
+
+## Install
+
+This plugin lives at `https://github.com/kellyheard/claude-virtual-team` (or wherever you push it).
+
+### Option 1: Plugin marketplace (Claude Code)
+
+```bash
+# In Claude Code:
+/plugin install kellyheard/claude-virtual-team
+```
+
+### Option 2: Manual symlink for local development
+
+```bash
+# Symlink agents into your global Claude config
+ln -s /Users/kellyheard/Development/claude-virtual-team/agents/nate.md   ~/.claude/agents/nate.md
+ln -s /Users/kellyheard/Development/claude-virtual-team/agents/priya.md  ~/.claude/agents/priya.md
+ln -s /Users/kellyheard/Development/claude-virtual-team/agents/simone.md ~/.claude/agents/simone.md
+ln -s /Users/kellyheard/Development/claude-virtual-team/agents/dev.md    ~/.claude/agents/dev.md
+```
+
+### Option 3: Per-project copy
+
+Drop the agent files into a project's `.claude/agents/` directory. Use this when you want to extend an agent with project-specific context (see "Extending per-project" below).
+
+## Usage
+
+Invoke by name in any Claude Code session:
+
+```
+@nate review the state management approach in src/store/
+@priya audit this form for keyboard accessibility
+@simone audit input validation on the file upload endpoint
+@dev what's the highest-risk thing to test first in this codebase?
+```
+
+Or ask for a multi-agent review:
+
+```
+Full team review of the auth refactor before I merge it.
+```
+
+The triggering assistant should fan out to the relevant agents based on what changed.
+
+## Extending per-project
+
+Project-level agents in `<repo>/.claude/agents/` override globals with the same name. Use this to layer project-specific context onto a persona without forking the plugin:
+
+```markdown
+---
+name: nate
+description: Senior full-stack engineer (project-aware variant for Acme app).
+tools: Read, Grep, Glob, Bash, Edit, Write
+model: sonnet
+---
+
+[Inherit Nate's persona conceptually, then add:]
+
+## Project Context
+
+- **Stack:** React 19 + Vite + TypeScript, Postgres via Supabase
+- **State:** Context + reducer pattern in src/state/
+- **Known open issues:** see project-files/code-review-findings.md
+```
+
+Or, to leave the persona untouched but add project context, just keep the plugin's global agent and put project-specific notes in `CLAUDE.md` or a doc the agent reads on demand.
+
+## Design notes
+
+- **Each agent stays in its lane.** Constraints sections explicitly tell the agent what to defer. This prevents Nate from doing a security audit poorly when Simone exists.
+- **Disagreement is the point.** Nate will push back on Priya's UI complexity; Priya will push back on Nate's "ship it" instinct. Surface the disagreement, don't paper over it.
+- **Agents recommend more than they decide.** Even the implementers (`nate`, `priya`, `dev`) are framed as reviewers first. The user should be the one merging the recommendations.
+
+## License
+
+MIT

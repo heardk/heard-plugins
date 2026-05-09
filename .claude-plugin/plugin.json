@@ -1,0 +1,16 @@
+{
+  "name": "virtual-team",
+  "version": "1.0.0",
+  "description": "A virtual team of four named subagents (full-stack, frontend, security, quality) for code reviews, architecture feedback, and implementation. Each agent has a distinct voice and stays in their lane.",
+  "author": {
+    "name": "Kelly Heard",
+    "email": "mail@kellyheard.com"
+  },
+  "homepage": "https://github.com/kellyheard/claude-virtual-team",
+  "keywords": [
+    "agents",
+    "subagents",
+    "virtual-team",
+    "code-review"
+  ]
+}
