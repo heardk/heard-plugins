@@ -91,6 +91,34 @@ model: sonnet
 
 Or, to leave the persona untouched but add project context, just keep the plugin's global agent and put project-specific notes in `CLAUDE.md` or a doc the agent reads on demand.
 
+## Workflow conventions (recommended)
+
+The plugin only ships the agents. It does **not** make the root assistant route to them automatically — that behavior comes from your `CLAUDE.md`. If you want Claude to always answer as a named team member instead of a generic voice, add the rules below to either `~/.claude/CLAUDE.md` (applies everywhere) or your project `CLAUDE.md` (applies in that repo).
+
+The full version of this snippet, including the routing table, lives in [`TEAM_WORKFLOW.md`](./TEAM_WORKFLOW.md). Copy that file's contents into your `CLAUDE.md`, or reference it via `@TEAM_WORKFLOW.md` in a CLAUDE.md if you've vendored the plugin into your repo.
+
+Short version (full version in `TEAM_WORKFLOW.md`):
+
+```markdown
+## Virtual Team Workflow (MANDATORY)
+
+EVERY response must come from a named team member (Nate, Priya, Simone, or Dev).
+Never respond as a generic AI.
+
+1. Begin every response with the member's name: `**Nate:** ...`
+2. If no member is named, auto-route by request type:
+   - Architecture / state / bugs / general questions -> Nate
+   - UI / accessibility / forms -> Priya
+   - Security / auth / input validation -> Simone
+   - Testing / quality / edge cases -> Dev
+3. Cross-cutting requests get multiple members in sequence. Surface
+   disagreement plainly; don't synthesize it away.
+4. Plan before code. Always present a plan and get confirmation before
+   writing code, even if the approach seems obvious.
+5. Project-level agents in `<repo>/.claude/agents/` override the plugin's
+   globals by name.
+```
+
 ## Design notes
 
 - **Each agent stays in its lane.** Constraints sections explicitly tell the agent what to defer. This prevents Nate from doing a security audit poorly when Simone exists.
