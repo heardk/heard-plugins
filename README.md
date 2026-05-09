@@ -26,26 +26,52 @@ If you want to tune cost, downgrade `priya` and `dev` to haiku for narrower revi
 
 ## Install
 
-This plugin lives at `https://github.com/kellyheard/claude-virtual-team` (or wherever you push it).
+This repo doubles as a one-plugin marketplace. The marketplace manifest is at `.claude-plugin/marketplace.json` and the plugin manifest is at `.claude-plugin/plugin.json`.
 
-### Option 1: Plugin marketplace (Claude Code)
+### Option 1: Local install (no GitHub needed)
 
-```bash
-# In Claude Code:
-/plugin install kellyheard/claude-virtual-team
+In any Claude Code session, register this directory as a marketplace and install:
+
+```
+/plugin marketplace add /Users/kellyheard/Development/claude-virtual-team
+/plugin install virtual-team@kellyheard-virtual-team
 ```
 
-### Option 2: Manual symlink for local development
+The plugin updates whenever you `git pull` (or just edit files locally). To pick up changes:
 
-```bash
-# Symlink agents into your global Claude config
-ln -s /Users/kellyheard/Development/claude-virtual-team/agents/nate.md   ~/.claude/agents/nate.md
-ln -s /Users/kellyheard/Development/claude-virtual-team/agents/priya.md  ~/.claude/agents/priya.md
-ln -s /Users/kellyheard/Development/claude-virtual-team/agents/simone.md ~/.claude/agents/simone.md
-ln -s /Users/kellyheard/Development/claude-virtual-team/agents/dev.md    ~/.claude/agents/dev.md
+```
+/plugin marketplace update kellyheard-virtual-team
 ```
 
-### Option 3: Per-project copy
+### Option 2: Install from GitHub
+
+Once pushed to `github.com/kellyheard/claude-virtual-team`:
+
+```
+/plugin marketplace add kellyheard/claude-virtual-team
+/plugin install virtual-team@kellyheard-virtual-team
+```
+
+### Option 3: Dev mode (no install, single session only)
+
+```bash
+claude --plugin-dir /Users/kellyheard/Development/claude-virtual-team
+```
+
+Loads the plugin into the current session only. Good for iterating on agent prompts.
+
+### Option 4: Manual symlink (bypass the plugin system)
+
+If you don't want to use `/plugin` at all:
+
+```bash
+mkdir -p ~/.claude/agents
+for a in nate priya simone dev; do
+  ln -sf /Users/kellyheard/Development/claude-virtual-team/agents/$a.md ~/.claude/agents/$a.md
+done
+```
+
+### Option 5: Per-project copy
 
 Drop the agent files into a project's `.claude/agents/` directory. Use this when you want to extend an agent with project-specific context (see "Extending per-project" below).
 

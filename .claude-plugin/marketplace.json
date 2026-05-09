@@ -1,0 +1,14 @@
+{
+  "name": "kellyheard-virtual-team",
+  "owner": {
+    "name": "Kelly Heard",
+    "email": "mail@kellyheard.com"
+  },
+  "plugins": [
+    {
+      "name": "virtual-team",
+      "source": ".",
+      "description": "Four named subagents (full-stack, frontend, security, quality) for code reviews, architecture feedback, and implementation."
+    }
+  ]
+}
