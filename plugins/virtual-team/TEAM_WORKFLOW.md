@@ -21,42 +21,52 @@ The plugin only ships the agents. The routing rules below are what make the root
 
 ### Roster
 
-| Agent | Role | Focus |
-| --- | --- | --- |
-| Nate Caldwell | Senior Full-Stack | Architecture, state management, framework patterns, types, performance, build tooling |
-| Priya Maddox | Senior Frontend | UI/UX, accessibility, responsive design, component patterns, form UX |
-| Simone Adler | Senior Security | Input validation, auth, XSS, dependencies, secrets, CORS, threat modeling |
-| Dev Kowalski | Senior Quality | Testing strategy, test design, edge cases, testability, CI quality gates |
+These agents are delivered by the `virtual-team` plugin and are available in every project. They are invoked with the plugin-namespaced form (e.g. `@virtual-team:nate`), which keeps them distinct from any project-level agent of the same short name.
+
+| Agent | Role | Invoke | Focus |
+| --- | --- | --- | --- |
+| Nate Caldwell | Senior Full-Stack | `@virtual-team:nate` | Architecture, state management, framework patterns, types, performance, build tooling |
+| Priya Maddox | Senior Frontend | `@virtual-team:priya` | UI/UX, accessibility, responsive design, component patterns, form UX |
+| Simone Adler | Senior Security | `@virtual-team:simone` | Input validation, auth, XSS, dependencies, secrets, CORS, threat modeling |
+| Dev Kowalski | Senior Quality | `@virtual-team:dev` | Testing strategy, test design, edge cases, testability, CI quality gates |
+
+### Project-level team
+
+Project-level agents in `<repo>/.claude/agents/` win over the plugin's virtual team for project work because they carry that codebase's context. If a project defines a `nate` (full-stack lead with project-specific context), prefer `@nate` over `@virtual-team:nate` for that project's work.
+
+Use a `virtual-team:` member when:
+
+- No project equivalent exists for the needed expertise.
+- You explicitly want a perspective without project-specific assumptions (useful for sanity-checking established patterns).
+- A `virtual-team:` member is invoked by name.
+
+Auto-routing entries in the table below resolve to project agents first; the plugin's virtual team only fills gaps the project team doesn't cover.
 
 ### Routing table (when no member is named)
 
 | Request type | Lead | Secondary |
 | --- | --- | --- |
-| Architecture / refactoring | Nate | Simone |
-| Bug fix (logic / state) | Nate | — |
-| Bug fix (UI / styling) | Priya | — |
-| UI / component changes | Priya | Nate for architecture |
-| Accessibility | Priya | — |
-| Security concerns | Simone | — |
-| Testing strategy / test design | Dev | — |
-| New feature (implementation) | Nate | Priya for UI |
-| Deployment / build issues | Nate | — |
-| General codebase question | Nate | — |
+| Architecture / refactoring | full-stack lead (project or `virtual-team:nate`) | security lead |
+| Bug fix (logic / state) | full-stack lead | — |
+| Bug fix (UI / styling) | frontend lead (project or `virtual-team:priya`) | — |
+| UI / component changes | frontend lead | full-stack lead for architecture |
+| Accessibility | frontend lead | — |
+| Security concerns | security lead (project or `virtual-team:simone`) | — |
+| Testing strategy / test design | quality lead (project or `virtual-team:dev`) | — |
+| New feature (implementation) | full-stack lead | frontend lead for UI |
+| Deployment / build issues | full-stack lead | — |
+| General codebase question | full-stack lead | — |
 
 ### Multi-member patterns
 
-- **Architecture decisions:** Nate + Simone + relevant domain experts. Each gives their perspective; disagreement gets surfaced, not synthesized away.
-- **Code review:** match reviewers to change type. UI changes -> Priya. State / data layer -> Nate. Anything touching auth, input handling, or external integrations -> Simone. Anything new gets Dev's input on testability.
+- **Architecture decisions:** full-stack lead + security lead + relevant domain experts. Each gives their perspective; disagreement gets surfaced, not synthesized away.
+- **Code review:** match reviewers to change type. UI changes -> frontend lead. State / data layer -> full-stack lead. Anything touching auth, input handling, or external integrations -> security lead. Anything new gets the quality lead's input on testability.
 - **Design or scoping decisions with real tradeoffs:** invoke multiple members so each can argue from their position. The synthesis happens after, with the tradeoffs made explicit.
-
-### Project-level overrides
-
-If a project defines its own agent at `<repo>/.claude/agents/<name>.md` with the same name, prefer it over the plugin's global version. Use the project version for project-domain decisions; use the plugin version when you want a fresh perspective without project-specific assumptions, or when the project doesn't define an equivalent.
 
 ### Invocation examples
 
-- `@nate review this state management approach`
-- `@priya does this form handle keyboard-only navigation?`
-- `@simone audit input validation on the file upload endpoint`
-- `@dev what's the highest-risk thing to test first in this codebase?`
+- `@virtual-team:nate review this state management approach`
+- `@virtual-team:priya does this form handle keyboard-only navigation?`
+- `@virtual-team:simone audit input validation on the file upload endpoint`
+- `@virtual-team:dev what's the highest-risk thing to test first in this codebase?`
 - *"Full team review of [feature] before shipping"* — invoke relevant members in sequence

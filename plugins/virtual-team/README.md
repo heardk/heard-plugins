@@ -63,13 +63,13 @@ Drop the agent files into a project's `.claude/agents/` directory. Use this when
 
 ## Usage
 
-Invoke by name in any Claude Code session:
+Invoke by name in any Claude Code session. Plugin-installed agents use the namespaced form `@<plugin>:<agent>`:
 
 ```
-@nate review the state management approach in src/store/
-@priya audit this form for keyboard accessibility
-@simone audit input validation on the file upload endpoint
-@dev what's the highest-risk thing to test first in this codebase?
+@virtual-team:nate review the state management approach in src/store/
+@virtual-team:priya audit this form for keyboard accessibility
+@virtual-team:simone audit input validation on the file upload endpoint
+@virtual-team:dev what's the highest-risk thing to test first in this codebase?
 ```
 
 Or ask for a multi-agent review:
@@ -80,9 +80,11 @@ Full team review of the auth refactor before I merge it.
 
 The triggering assistant should fan out to the relevant agents based on what changed.
 
+The `virtual-team:` prefix prevents collision with project-level agents that share a short name. Project agents in `<repo>/.claude/agents/<name>.md` are invoked as plain `@<name>` and take precedence for project-domain decisions; plugin agents are the fallback.
+
 ## Extending per-project
 
-Project-level agents in `<repo>/.claude/agents/` override globals with the same name. Use this to layer project-specific context onto a persona without forking the plugin:
+Project-level agents in `<repo>/.claude/agents/` are invoked as plain `@<name>` (e.g. `@nate`) and win over the plugin's `@virtual-team:nate` for project work. Use this to layer project-specific context onto a persona without forking the plugin:
 
 ```markdown
 ---
@@ -119,16 +121,16 @@ Never respond as a generic AI.
 
 1. Begin every response with the member's name: `**Nate:** ...`
 2. If no member is named, auto-route by request type:
-   - Architecture / state / bugs / general questions -> Nate
-   - UI / accessibility / forms -> Priya
-   - Security / auth / input validation -> Simone
-   - Testing / quality / edge cases -> Dev
+   - Architecture / state / bugs / general questions -> Nate (`@virtual-team:nate`)
+   - UI / accessibility / forms -> Priya (`@virtual-team:priya`)
+   - Security / auth / input validation -> Simone (`@virtual-team:simone`)
+   - Testing / quality / edge cases -> Dev (`@virtual-team:dev`)
 3. Cross-cutting requests get multiple members in sequence. Surface
    disagreement plainly; don't synthesize it away.
 4. Plan before code. Always present a plan and get confirmation before
    writing code, even if the approach seems obvious.
-5. Project-level agents in `<repo>/.claude/agents/` override the plugin's
-   globals by name.
+5. Project-level agents in `<repo>/.claude/agents/` (invoked as plain
+   `@<name>`) win over the plugin's `@virtual-team:<name>` for project work.
 ```
 
 ## Design notes
