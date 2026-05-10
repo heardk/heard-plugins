@@ -1,6 +1,6 @@
 # Virtual Team Workflow
 
-Drop this file's contents into your project `CLAUDE.md` (or global `~/.claude/CLAUDE.md`) to make the assistant always respond as a named team member from the `virtual-team` plugin.
+Drop this file's contents into your project `CLAUDE.md` (or global `~/.claude/CLAUDE.md`) to make the assistant always respond as a named team member from the `heard-virtual-team` plugin.
 
 The plugin only ships the agents. The routing rules below are what make the root assistant *use* them by default instead of responding as a generic AI.
 

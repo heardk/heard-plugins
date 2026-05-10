@@ -1,4 +1,4 @@
-# virtual-team
+# heard-virtual-team
 
 A Claude Code plugin that installs four named subagents — `nate`, `priya`, `simone`, `dev` — covering full-stack, frontend, security, and quality. Each has a distinct voice, scope, and review protocol, and is told to stay in its lane and defer outside it.
 
@@ -34,13 +34,13 @@ In any Claude Code session, register this directory as a marketplace and install
 
 ```
 /plugin marketplace add /Users/kellyheard/Development/claude-virtual-team
-/plugin install virtual-team@kellyheard-virtual-team
+/plugin install heard-virtual-team@heard-virtual-team
 ```
 
 The plugin updates whenever you `git pull` (or just edit files locally). To pick up changes:
 
 ```
-/plugin marketplace update kellyheard-virtual-team
+/plugin marketplace update heard-virtual-team
 ```
 
 ### Option 2: Install from GitHub
@@ -49,7 +49,7 @@ Once pushed to `github.com/kellyheard/claude-virtual-team`:
 
 ```
 /plugin marketplace add kellyheard/claude-virtual-team
-/plugin install virtual-team@kellyheard-virtual-team
+/plugin install heard-virtual-team@heard-virtual-team
 ```
 
 ### Option 3: Dev mode (no install, single session only)
