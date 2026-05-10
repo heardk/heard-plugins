@@ -6,7 +6,7 @@
     "name": "Kelly Heard",
     "email": "mail@kellyheard.com"
   },
-  "homepage": "https://github.com/heardk/claude-virtual-team",
+  "homepage": "https://github.com/heardk/heard-plugins/tree/main/plugins/virtual-team",
   "keywords": [
     "agents",
     "subagents",

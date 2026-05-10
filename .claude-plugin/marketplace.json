@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "virtual-team",
-      "source": ".",
+      "source": "./plugins/virtual-team",
       "description": "Four named subagents (full-stack, frontend, security, quality) for code reviews, architecture feedback, and implementation."
     }
   ]
