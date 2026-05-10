@@ -20,7 +20,7 @@ In any Claude Code session:
 For local development without GitHub:
 
 ```
-/plugin marketplace add /Users/kellyheard/Development/heard-plugins
+/plugin marketplace add /path/to/heard-plugins
 /plugin install virtual-team@heard-plugins
 ```
 

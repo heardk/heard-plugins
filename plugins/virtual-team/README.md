@@ -38,14 +38,14 @@ This plugin lives in the [`heard-plugins`](https://github.com/heardk/heard-plugi
 For local development without GitHub:
 
 ```
-/plugin marketplace add /Users/kellyheard/Development/heard-plugins
+/plugin marketplace add /path/to/heard-plugins
 /plugin install virtual-team@heard-plugins
 ```
 
 ### Dev mode (single session, no install)
 
 ```bash
-claude --plugin-dir /Users/kellyheard/Development/heard-plugins/plugins/virtual-team
+claude --plugin-dir /path/to/heard-plugins/plugins/virtual-team
 ```
 
 ### Manual symlink (bypass the plugin system)
@@ -53,7 +53,7 @@ claude --plugin-dir /Users/kellyheard/Development/heard-plugins/plugins/virtual-
 ```bash
 mkdir -p ~/.claude/agents
 for a in nate priya simone dev; do
-  ln -sf /Users/kellyheard/Development/heard-plugins/plugins/virtual-team/agents/$a.md ~/.claude/agents/$a.md
+  ln -sf /path/to/heard-plugins/plugins/virtual-team/agents/$a.md ~/.claude/agents/$a.md
 done
 ```
 
