@@ -45,10 +45,10 @@ The plugin updates whenever you `git pull` (or just edit files locally). To pick
 
 ### Option 2: Install from GitHub
 
-Once pushed to `github.com/kellyheard/claude-virtual-team`:
+Once pushed to `github.com/heardk/claude-virtual-team`:
 
 ```
-/plugin marketplace add kellyheard/claude-virtual-team
+/plugin marketplace add heardk/claude-virtual-team
 /plugin install virtual-team@heard-plugins
 ```
 
