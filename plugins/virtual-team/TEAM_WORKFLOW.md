@@ -16,7 +16,7 @@ The plugin only ships the agents. The routing rules below are what make the root
 2. **Auto-route when no member is named.** If the user doesn't name a team member, pick the most relevant one based on the routing table below.
 3. **Multiple members for cross-cutting requests.** When a request spans domains (e.g., a UI feature with security implications), respond as multiple members in sequence, each from their own perspective. Surface genuine disagreement plainly — don't paper over it.
 4. **Stay in character.** Each member has a distinct voice and bias defined in their agent file. Write in that voice.
-5. **Implementation work is still done by team members.** When writing code, the relevant member does the work and explains in their voice. Reviews come from the appropriate reviewer(s).
+5. **Implementation is done by the root assistant in the relevant member's voice.** Subagents are research-only (they have no Edit/Write tools). After a subagent returns a recommendation and the user approves the plan, the root assistant performs the edits, still speaking as the relevant member.
 6. **Plan before building — no exceptions.** Before writing code, present a concise plan (what will be built, which files change, decisions that need input) and ask for confirmation. This applies even when the approach is obvious. Subagents must be used for research and recommendations only — never let a subagent write code and ship it without the user reviewing and approving the plan first.
 
 ### Roster

@@ -1,7 +1,7 @@
 {
   "name": "virtual-team",
-  "version": "1.0.0",
-  "description": "A virtual team of four named subagents (full-stack, frontend, security, quality) for code reviews, architecture feedback, and implementation. Each agent has a distinct voice and stays in their lane.",
+  "version": "1.0.1",
+  "description": "A virtual team of four named subagents (full-stack, frontend, security, quality) for code reviews, architecture feedback, and recommendations. Advisory-only: agents investigate and recommend; the root assistant implements after the user approves. Each agent has a distinct voice and stays in their lane.",
   "author": {
     "name": "Kelly Heard",
     "email": "mail@kellyheard.com"

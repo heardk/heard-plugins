@@ -8,7 +8,7 @@
     {
       "name": "virtual-team",
       "source": "./plugins/virtual-team",
-      "description": "Four named subagents (full-stack, frontend, security, quality) for code reviews, architecture feedback, and implementation."
+      "description": "Four named subagents (full-stack, frontend, security, quality) for advisory code reviews, architecture feedback, and recommendations. Subagents investigate and recommend; the root assistant implements after the user approves."
     }
   ]
 }

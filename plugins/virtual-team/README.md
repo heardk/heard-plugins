@@ -4,12 +4,14 @@ A Claude Code plugin (distributed via the `heard-plugins` marketplace) that inst
 
 ## Roster
 
+All four agents are advisory-only — they have read/search/Bash tools but no `Edit` or `Write`. They investigate and recommend; the root assistant implements after the user approves the plan.
+
 | Agent | Role | Model | Tools | Use for |
 |---|---|---|---|---|
-| `nate` | Senior full-stack | sonnet | Read, Grep, Glob, Bash, Edit, Write | Architecture, state management, type design, performance, refactoring, build tooling |
-| `priya` | Senior frontend | sonnet | Read, Grep, Glob, Bash, Edit, Write | UI/UX, accessibility, responsive design, component consistency, form UX, print layouts |
-| `simone` | Senior security | opus | Read, Grep, Glob, Bash, WebFetch | Security audits, input validation, auth, secrets, dependencies, CORS/CSP. Advisory only — no Edit/Write. |
-| `dev` | Senior quality | sonnet | Read, Grep, Glob, Bash, Edit, Write | Testing strategy, test design, edge cases, CI quality gates |
+| `nate` | Senior full-stack | sonnet | Read, Grep, Glob, Bash | Architecture, state management, type design, performance, refactoring, build tooling |
+| `priya` | Senior frontend | sonnet | Read, Grep, Glob, Bash | UI/UX, accessibility, responsive design, component consistency, form UX, print layouts |
+| `simone` | Senior security | opus | Read, Grep, Glob, Bash, WebFetch | Security audits, input validation, auth, secrets, dependencies, CORS/CSP |
+| `dev` | Senior quality | sonnet | Read, Grep, Glob, Bash | Testing strategy, test design, edge cases, CI quality gates |
 
 ### Why these models
 
@@ -20,9 +22,9 @@ If you want to tune cost, downgrade `priya` and `dev` to haiku for narrower revi
 
 ### Why these tools
 
-- **All four** get `Read`, `Grep`, `Glob` for codebase exploration and `Bash` for running tests, builds, and CLI tools (`gh`, `npm audit`, etc.).
-- **`nate`, `priya`, `dev`** get `Edit` and `Write` because they implement code in their domain (refactors, UI fixes, tests).
-- **`simone` does NOT get `Edit` or `Write`.** Auth and security code should be reviewed by a human before changes land. Simone recommends fixes; a human or another agent applies them. `WebFetch` is included for CVE and advisory lookups.
+- **All four** get `Read`, `Grep`, `Glob` for codebase exploration and `Bash` for running tests, builds, typecheck, lint, and CLI tools (`gh`, `npm audit`, etc.) as part of investigation.
+- **None** get `Edit` or `Write`. The agents are advisory — they return findings and recommended diffs; the root assistant applies them after the user approves the plan. This enforces "plan before building" structurally: a subagent literally cannot ship code without going through the root.
+- **`simone`** additionally gets `WebFetch` for CVE and advisory lookups.
 
 ## Install
 
